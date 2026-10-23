@@ -2,7 +2,7 @@
 
 **Keep your Mac awake while your AI agent works, and let it sleep again once the agent is done or is waiting on you.**
 
-A tiny [MCP](https://modelcontextprotocol.io) server with no dependencies. It's one file of about 180 lines and wraps the `caffeinate` command built into macOS. Your agent calls `awake_start` when it begins a long task. The Mac stays awake until one of these happens:
+A tiny [MCP](https://modelcontextprotocol.io) server with no dependencies. The server is one file of about 190 lines, and it ships with an agent skill that tells the agent when to use it. It wraps the `caffeinate` command built into macOS. Your agent calls `awake_start` when it begins a long task. The Mac stays awake until one of these happens:
 
 | Trigger | Mechanism |
 |---|---|
@@ -18,7 +18,20 @@ When the idle timeout or the cap releases the hold, you get a macOS notification
 
 ## Install
 
-### Claude Code
+### Claude Code plugin (recommended: server + skill)
+
+The repo is also a Claude Code plugin marketplace. Installing the plugin gives you the MCP server **and** the `keep-awake` skill, which teaches the agent when to start, ping and stop:
+
+```bash
+claude plugin marketplace add yhauxell/awk-mcp
+claude plugin install awk-mcp@awk-mcp
+```
+
+Or inside a session: `/plugin marketplace add yhauxell/awk-mcp`, then `/plugin install awk-mcp@awk-mcp`. Restart the session afterwards.
+
+> If you already registered the server by hand (`claude mcp add … awake`), remove that entry (`claude mcp remove awake -s user`) so the agent doesn't see two copies of the tools.
+
+### Claude Code, MCP server only
 
 ```bash
 claude mcp add --scope user awake -- npx -y github:yhauxell/awk-mcp
@@ -84,7 +97,11 @@ These environment variables set the defaults. Per-call parameters override them,
 
 ## Telling your agent to use it
 
-Agents call tools when their instructions tell them to. Add a line like this to your `CLAUDE.md`, `AGENTS.md`, or system prompt:
+Agents get guidance on three layers:
+
+1. **Server instructions (always on).** During the MCP handshake the server sends a short `instructions` string. Clients that support it, including Claude Code, put it in the agent's system prompt: start before long work or when the user steps away, ping during long silent commands, stop when done or before asking the user something.
+2. **The [`keep-awake` skill](skills/keep-awake/SKILL.md)** (installed with the plugin). The full playbook: which parameters fit which situation, the ping cadence, when to release, what it can't do, and what to say if the tools are missing. It's a standard `SKILL.md`, so you can also copy `skills/keep-awake/` into any agent that reads Agent Skills.
+3. **Your own rules (optional).** To make it unconditional, add something like this to `CLAUDE.md`, `AGENTS.md`, or a system prompt:
 
 ```md
 Before any task likely to take more than a few minutes, call `awake_start`.

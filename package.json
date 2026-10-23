@@ -1,6 +1,6 @@
 {
   "name": "awk-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tiny zero-dependency MCP server that keeps a Mac awake while an AI agent works, and lets it sleep when the task is done or the agent waits on you",
   "type": "module",
   "bin": { "awk-mcp": "server.mjs" },

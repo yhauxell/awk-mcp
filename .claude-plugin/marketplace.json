@@ -1,0 +1,14 @@
+{
+  "name": "awk-mcp",
+  "owner": { "name": "yhauxell", "url": "https://github.com/yhauxell" },
+  "metadata": { "description": "Keep-awake MCP server and skill for AI agents on macOS" },
+  "plugins": [
+    {
+      "name": "awk-mcp",
+      "source": "./",
+      "description": "Keep your Mac awake while the agent works, and let it sleep once the task is done or the agent waits on you.",
+      "version": "0.2.0",
+      "category": "productivity"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "awk-mcp",
+  "version": "0.2.0",
+  "description": "Keep your Mac awake while the agent works, and let it sleep once the task is done or the agent waits on you. Bundles the awk-mcp server and the keep-awake skill.",
+  "author": { "name": "yhauxell", "url": "https://github.com/yhauxell" },
+  "homepage": "https://github.com/yhauxell/awk-mcp",
+  "repository": "https://github.com/yhauxell/awk-mcp",
+  "license": "MIT",
+  "keywords": ["macos", "caffeinate", "keep-awake", "mcp"],
+  "mcpServers": {
+    "awake": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/server.mjs"]
+    }
+  }
+}

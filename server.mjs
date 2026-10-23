@@ -122,6 +122,11 @@ const TOOLS = [
   { name: "awake_status", description: "Show whether the Mac is being kept awake and when it will be released.", inputSchema: { type: "object", properties: {} } },
 ];
 
+// Sent at initialize; MCP clients surface this in the agent's system prompt while the server is connected.
+const INSTRUCTIONS =
+  "Prevents the user's Mac from sleeping mid-task. Call awake_start BEFORE starting work when the user is stepping away or wants you to keep going without them (\"heading out\", \"overnight\", \"while I'm away\"), or when the task involves a long build, test suite, migration or other multi-minute job. " +
+  "Call awake_ping before long silent commands. Call awake_stop when the task is done, fails, or before you stop to ask the user something. Skip it for quick questions and short edits.";
+
 function callTool(name, args) {
   args ??= {};
   switch (name) {
@@ -145,7 +150,8 @@ function handle(msg) {
       return ok({
         protocolVersion: params?.protocolVersion ?? "2025-06-18",
         capabilities: { tools: {} },
-        serverInfo: { name: "awk-mcp", version: "0.1.0" },
+        serverInfo: { name: "awk-mcp", version: "0.2.0" },
+        instructions: INSTRUCTIONS,
       });
     case "ping": return ok({});
     case "tools/list": return ok({ tools: TOOLS });
