@@ -1,0 +1,4 @@
+node_modules/
+.DS_Store
+# local client config (contains absolute paths)
+.mcp.json

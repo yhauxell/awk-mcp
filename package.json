@@ -1,0 +1,15 @@
+{
+  "name": "awk-mcp",
+  "version": "0.1.0",
+  "description": "Tiny zero-dependency MCP server that keeps a Mac awake while an AI agent works, and lets it sleep when the task is done or the agent waits on you",
+  "type": "module",
+  "bin": { "awk-mcp": "server.mjs" },
+  "files": ["server.mjs"],
+  "scripts": { "test": "node test.mjs" },
+  "engines": { "node": ">=18" },
+  "os": ["darwin"],
+  "keywords": ["mcp", "model-context-protocol", "caffeinate", "macos", "keep-awake", "claude", "ai-agent"],
+  "repository": { "type": "git", "url": "git+https://github.com/yhauxell/awk-mcp.git" },
+  "homepage": "https://github.com/yhauxell/awk-mcp#readme",
+  "license": "MIT"
+}
